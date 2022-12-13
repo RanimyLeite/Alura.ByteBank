@@ -108,7 +108,7 @@ namespace Alura.ByteBank.Infraestrutura.Testes
             Assert.True(atualizado);
         }
 
-        [Fact]
+        [Fact(Skip = "Ainda não foi totalmente implementado!")]
         public void TestaRemoverInformacaoDeterminadaAgencia()
         {
             //Arrange
