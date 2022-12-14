@@ -1,7 +1,9 @@
 ﻿using Alura.ByteBank.Dados.Repositorio;
 using Alura.ByteBank.Dominio.Entidades;
 using Alura.ByteBank.Dominio.Interfaces.Repositorios;
+using Alura.ByteBank.Infraestrutura.Testes.Servico;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -139,6 +141,44 @@ namespace Alura.ByteBank.Infraestrutura.Testes
                 //Act
                 () => _repo.ObterPorId(98)
             );
+        }
+
+        [Fact]
+        public void TestaAdicionarAgenciaMock()
+        {
+            //Arrange
+            var egencia = new Agencia()
+            {
+                Nome = "Agencia Amaral",
+                Identificador = Guid.NewGuid(),
+                Id = 5,
+                Endereco = "Av. Osorio de paiva,13",
+                Numero = 1478
+            };
+
+            var repoMock = new ByteBankRepositorio();
+
+            //Act
+            var novaAgencia = repoMock.AdicionarAgencia(egencia);
+
+            //Assert
+            Assert.True(novaAgencia);
+        }
+
+        [Fact]
+        public void TestaObterAgenciaMock()
+        {
+            //Arrange
+            //Cria uma intancia de um mock passando como param a interface com comportamento para testar
+            var bytebankRepositorioMock = new Mock<IByteBankRepositorio>();
+            var mock = bytebankRepositorioMock.Object; //Criação do objeto mock
+
+            //Act
+            var lista = mock.BuscarAgencias();// chama o método a ser testado que existe na interface IByteBankRepositorio
+
+            //Assert
+            //Verifica se o comportamento foi invocado normalmente
+            bytebankRepositorioMock.Verify(b => b.BuscarAgencias());
         }
     }
 }

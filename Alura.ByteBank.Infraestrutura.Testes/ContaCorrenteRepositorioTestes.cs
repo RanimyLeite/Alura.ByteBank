@@ -1,7 +1,10 @@
 ﻿using Alura.ByteBank.Dados.Repositorio;
 using Alura.ByteBank.Dominio.Entidades;
 using Alura.ByteBank.Dominio.Interfaces.Repositorios;
+using Alura.ByteBank.Infraestrutura.Testes.Servico;
+using Alura.ByteBank.Infraestrutura.Testes.Servico.DTO;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,7 +99,7 @@ namespace Alura.ByteBank.Infraestrutura.Testes
                     Profissao = "desenvolvedor",
                     Id = 1
                 },
-                Agencia= new Agencia()
+                Agencia = new Agencia()
                 {
                     Nome = "Agencia Central",
                     Identificador = Guid.NewGuid(),
@@ -156,6 +159,30 @@ namespace Alura.ByteBank.Infraestrutura.Testes
 
             //Assert
             Assert.True(contaExcluida);
+        }
+
+        [Fact]
+        //Utilizaremos o conceito de stub que diferencia um pouco de mock
+        //No mock testamos um comportamento 
+        //No Stub verificamos se o retorno de um método está igual ao esperado no test
+        public void TestaConsultaTodosPix()
+        {
+            //Arrange
+            var guid = new Guid("a0b80d53-c0dd-4897-ab90-c0615ad80d5a"); //guid que será consultado
+            var pix = new PixDTO() { Chave = guid, Saldo = 10 }; //Cria um novo pix
+
+            var pixRepositorioMock = new Mock<IPixRepositorio>(); //Cria o Mock
+
+            //Criando consulta, passando um guid e retorna um pix
+            pixRepositorioMock.Setup(x => x.consultaPix(It.IsAny<Guid>())).Returns(pix);
+
+            var mock = pixRepositorioMock.Object;//Cria instancia do mock 
+
+            //Act
+            var saldo = mock.consultaPix(guid).Saldo;//Faz a consulta do saldo do pix criado acima
+
+            //Assert
+            Assert.Equal(10, saldo);//Verifica o retorno e compara com o esperado
         }
     }
 }
