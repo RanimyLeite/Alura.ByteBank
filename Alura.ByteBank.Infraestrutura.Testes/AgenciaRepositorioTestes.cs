@@ -7,14 +7,18 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Alura.ByteBank.Infraestrutura.Testes
 {
     public class AgenciaRepositorioTestes
     {
         private readonly IAgenciaRepositorio _repo;
-        public AgenciaRepositorioTestes()
+        public ITestOutputHelper SaidaConsoleTeste { get; }
+        public AgenciaRepositorioTestes(ITestOutputHelper saidaConsoleTeste)
         {
+            SaidaConsoleTeste = saidaConsoleTeste;
+            SaidaConsoleTeste.WriteLine("Construtor executado com sucesso!");
             //Injetando dependência no construtor
             //para não depender da classe concreta e sim da abstração! 
             var servico = new ServiceCollection();
@@ -97,7 +101,7 @@ namespace Alura.ByteBank.Infraestrutura.Testes
             //Arrange
             var agencia = new Agencia()
             {
-                Id = 58,
+                Id = 51,
                 Numero= 1003,
                 Nome = "New Agency",
                 Identificador = Guid.NewGuid(),
