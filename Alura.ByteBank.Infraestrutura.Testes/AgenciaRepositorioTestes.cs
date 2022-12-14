@@ -115,7 +115,7 @@ namespace Alura.ByteBank.Infraestrutura.Testes
             //Arrange
             var agencia = new Agencia()
             {
-                Id = 58,
+                Id = 56,
                 Numero = 1003,
                 Nome = "New Agency",
                 Identificador = Guid.NewGuid(),
@@ -128,6 +128,17 @@ namespace Alura.ByteBank.Infraestrutura.Testes
 
             //Assert
             Assert.True(resultado);
+        }
+        [Fact]
+        public void TestaExcecaoObterAgenciaPorId()
+        {
+            //Arrange
+
+            //Assert
+            Assert.Throws<Exception>(
+                //Act
+                () => _repo.ObterPorId(98)
+            );
         }
     }
 }
